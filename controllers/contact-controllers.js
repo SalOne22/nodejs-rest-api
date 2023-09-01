@@ -8,75 +8,56 @@ const {
 
 const { newContactSchema } = require('../schemas/contact-schema');
 
+const { controllerWrapper } = require('../decorators');
 const { HttpError } = require('../utils');
 
-async function getAll(req, res, next) {
-  try {
-    const result = await listContacts();
+async function getAll(req, res) {
+  const result = await listContacts();
 
-    res.json(result);
-  } catch (err) {
-    next(err);
-  }
+  res.json(result);
 }
 
-async function getById(req, res, next) {
-  try {
-    const { contactId } = req.params;
+async function getById(req, res) {
+  const { contactId } = req.params;
 
-    const result = await getContactById(contactId);
-    if (result === null) throw new HttpError(404);
+  const result = await getContactById(contactId);
+  if (result === null) throw new HttpError(404);
 
-    res.json(result);
-  } catch (err) {
-    next(err);
-  }
+  res.json(result);
 }
 
-async function add(req, res, next) {
-  try {
-    await newContactSchema.validateAsync(req.body);
+async function add(req, res) {
+  await newContactSchema.validateAsync(req.body);
 
-    const result = await addContact(req.body);
+  const result = await addContact(req.body);
 
-    res.status(201).json(result);
-  } catch (err) {
-    next(err);
-  }
+  res.status(201).json(result);
 }
 
-async function remove(req, res, next) {
-  try {
-    const { contactId } = req.params;
+async function remove(req, res) {
+  const { contactId } = req.params;
 
-    const result = await removeContact(contactId);
-    if (result === null) throw new HttpError(404);
+  const result = await removeContact(contactId);
+  if (result === null) throw new HttpError(404);
 
-    res.json({ message: 'contact deleted' });
-  } catch (err) {
-    next(err);
-  }
+  res.json({ message: 'contact deleted' });
 }
 
-async function update(req, res, next) {
-  try {
-    const { contactId } = req.params;
+async function update(req, res) {
+  const { contactId } = req.params;
 
-    await newContactSchema.validateAsync(req.body);
+  await newContactSchema.validateAsync(req.body);
 
-    const result = await updateContact(contactId, req.body);
-    if (result === null) throw new HttpError(404);
+  const result = await updateContact(contactId, req.body);
+  if (result === null) throw new HttpError(404);
 
-    res.json(result);
-  } catch (err) {
-    next(err);
-  }
+  res.json(result);
 }
 
 module.exports = {
-  getAll,
-  getById,
-  add,
-  remove,
-  update,
+  getAll: controllerWrapper(getAll),
+  getById: controllerWrapper(getById),
+  add: controllerWrapper(add),
+  remove: controllerWrapper(remove),
+  update: controllerWrapper(update),
 };
