@@ -19,7 +19,20 @@ app.use((req, res) => {
 });
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message });
+  let status = 500;
+
+  switch (err.name) {
+    case 'ValidationError':
+      status = 400;
+      break;
+    case 'HttpError':
+      status = err.status;
+      break;
+    default:
+      break;
+  }
+
+  res.status(status).json({ message: err.message });
 });
 
 module.exports = app;
