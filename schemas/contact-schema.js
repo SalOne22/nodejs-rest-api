@@ -1,5 +1,31 @@
 const Joi = require('joi');
 
+const { Schema } = require('mongoose');
+
+const { validateAtUpdate } = require('./hooks');
+
+const contactSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Set name for contact'],
+    },
+    email: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { versionKey: false },
+);
+
+contactSchema.pre('findOneAndUpdate', validateAtUpdate);
+
 const newContactSchema = Joi.object({
   name: Joi.string()
     .pattern(/^\w+(?:\s+\w+)*$/)
@@ -18,5 +44,6 @@ const newContactSchema = Joi.object({
 });
 
 module.exports = {
+  contactSchema,
   newContactSchema,
 };
