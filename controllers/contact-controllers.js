@@ -1,6 +1,9 @@
 const contact = require('../models/contacts');
 
-const { newContactSchema } = require('../schemas/contact-schema');
+const {
+  newContactSchema,
+  favoriteContactSchema,
+} = require('../schemas/contact-schema');
 
 const { controllerWrapper } = require('../decorators');
 const { HttpError } = require('../utils');
@@ -42,7 +45,18 @@ async function update(req, res) {
 
   await newContactSchema.validateAsync(req.body);
 
-  const result = await contact.findByIdAndUpdate(id, req.body);
+  const result = await contact.findByIdAndUpdate(id, req.body, { new: true });
+  if (result === null) throw new HttpError(404);
+
+  res.json(result);
+}
+
+async function updateStatus(req, res) {
+  const { id } = req.params;
+
+  await favoriteContactSchema.validateAsync(req.body);
+
+  const result = await contact.findByIdAndUpdate(id, req.body, { new: true });
   if (result === null) throw new HttpError(404);
 
   res.json(result);
@@ -54,4 +68,5 @@ module.exports = {
   add: controllerWrapper(add),
   remove: controllerWrapper(remove),
   update: controllerWrapper(update),
+  updateStatus: controllerWrapper(updateStatus),
 };
