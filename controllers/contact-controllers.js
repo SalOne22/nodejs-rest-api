@@ -1,4 +1,4 @@
-const contact = require('../models/contacts');
+const contact = require('../models/contacts-model');
 
 const {
   newContactSchema,
