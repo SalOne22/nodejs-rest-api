@@ -22,7 +22,7 @@ app.use((err, req, res, next) => {
   let status = 500;
 
   switch (err.name) {
-    case 'ValidationError':
+    case 'ValidationError': // Работает и на joi и на mongoose 😎
       status = 400;
       break;
     case 'HttpError':

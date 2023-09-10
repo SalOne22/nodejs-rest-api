@@ -17,6 +17,4 @@ const newContactSchema = Joi.object({
     }),
 });
 
-module.exports = {
-  newContactSchema,
-};
+module.exports = newContactSchema;
