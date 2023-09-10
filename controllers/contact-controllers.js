@@ -1,9 +1,6 @@
 const contact = require('../models/contacts-model');
 
-const {
-  newContactSchema,
-  favoriteContactSchema,
-} = require('../schemas/contact-schema');
+const { newContactSchema, favoriteContactSchema } = require('../schemas');
 
 const { controllerWrapper } = require('../decorators');
 const { HttpError } = require('../utils');
