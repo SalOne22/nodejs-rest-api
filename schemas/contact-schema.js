@@ -43,7 +43,12 @@ const newContactSchema = Joi.object({
     }),
 });
 
+const favoriteContactSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
 module.exports = {
   contactSchema,
   newContactSchema,
+  favoriteContactSchema,
 };
