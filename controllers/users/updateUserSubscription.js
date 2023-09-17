@@ -1,7 +1,10 @@
 const { usersModel } = require('../../models');
+const { userSubscriptionSchema } = require('../../schemas/user');
 const { HttpError } = require('../../utils');
 
 async function updateSubscription(req, res) {
+  await userSubscriptionSchema.validateAsync(req.body);
+
   const user = await usersModel.findByIdAndUpdate(
     req.user.id,
     {
