@@ -7,9 +7,14 @@ async function update(req, res) {
 
   await newContactSchema.validateAsync(req.body);
 
-  const result = await contactsModel.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
+  const result = await contactsModel.findOneAndUpdate(
+    { _id: id, owner: req.user.id },
+    req.body,
+    {
+      new: true,
+    },
+  );
+
   if (result === null) throw new HttpError(404);
 
   res.json(result);

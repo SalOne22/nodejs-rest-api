@@ -1,9 +1,11 @@
 const express = require('express');
 
 const contactController = require('../../controllers/contacts');
-const { validateId } = require('../../middlewares');
+const { validateId, validateToken } = require('../../middlewares');
 
 const router = express.Router();
+
+router.use(validateToken);
 
 router.get('/', contactController.getAll);
 
