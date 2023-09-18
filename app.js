@@ -27,10 +27,14 @@ app.use((err, req, res, next) => {
     case 'ValidationError': // Работает и на joi и на mongoose 😎
       status = 400;
       break;
+    case 'JsonWebTokenError':
+      status = 401;
+      break;
     case 'HttpError':
       status = err.status;
       break;
     default:
+      console.error(err);
       break;
   }
 
