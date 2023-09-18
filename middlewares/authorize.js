@@ -13,7 +13,7 @@ const authorize = async (req, res, next) => {
 
   const [bearer, token] = authorization.split(' ');
 
-  if (bearer !== 'Bearer') throw new HttpError(401);
+  if (bearer !== 'Bearer' || !token) throw new HttpError(401);
 
   const { id } = jwt.verify(token, SECRET);
   const user = await usersModel.findById(id);
