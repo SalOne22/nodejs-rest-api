@@ -6,7 +6,7 @@ const { controllerWrapper } = require('../decorators');
 
 const { SECRET } = process.env;
 
-const validateToken = async (req, res, next) => {
+const authorize = async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) throw new HttpError(401);
@@ -25,4 +25,4 @@ const validateToken = async (req, res, next) => {
   next();
 };
 
-module.exports = controllerWrapper(validateToken);
+module.exports = controllerWrapper(authorize);
