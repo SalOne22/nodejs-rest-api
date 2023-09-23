@@ -2,3 +2,7 @@ node_modules/
 .env
 .idea
 .vscode
+
+public/avatars/*
+
+!**/.gitkeep
