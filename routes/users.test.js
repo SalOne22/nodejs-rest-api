@@ -92,4 +92,22 @@ describe('test login route', () => {
 
     expect(message).toBe('Email or password is wrong');
   });
+
+  test('should not login user with invalid body', async () => {
+    const credentials = {
+      password: 'password',
+    };
+
+    const response = await request(app)
+      .post('/users/login')
+      .set('Accept', 'application/json')
+      .send(credentials);
+
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.status).toEqual(400);
+
+    const { message } = response.body;
+
+    expect(message).toBe('"email" is required');
+  });
 });
