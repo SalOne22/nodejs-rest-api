@@ -55,4 +55,42 @@ describe('test login route', () => {
     expect(typeof user.subscription).toBe('string');
     expect(user.subscription).toBe('starter');
   });
+
+  test('should not login user with invalid password', async () => {
+    const credentials = {
+      email: 'test@mail.com',
+      password: 'invalid password',
+    };
+
+    const response = await request(app)
+      .post('/users/login')
+      .set('Accept', 'application/json')
+      .send(credentials);
+
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.status).toEqual(401);
+
+    const { message } = response.body;
+
+    expect(message).toBe('Email or password is wrong');
+  });
+
+  test('should not login user with invalid email', async () => {
+    const credentials = {
+      email: 'invalid@mail.com',
+      password: 'password',
+    };
+
+    const response = await request(app)
+      .post('/users/login')
+      .set('Accept', 'application/json')
+      .send(credentials);
+
+    expect(response.headers['content-type']).toMatch(/json/);
+    expect(response.status).toEqual(401);
+
+    const { message } = response.body;
+
+    expect(message).toBe('Email or password is wrong');
+  });
 });
