@@ -44,7 +44,6 @@ describe('test login route', () => {
 
     const { token, user } = response.body;
 
-    expect(token).toBeDefined();
     expect(typeof token).toBe('string');
 
     expect(user).toBeDefined();
