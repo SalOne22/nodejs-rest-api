@@ -31,6 +31,9 @@ app.use((err, req, res, next) => {
     case 'JsonWebTokenError':
       status = 401;
       break;
+    case 'TokenExpiredError':
+      status = 401;
+      break;
     case 'HttpError':
       status = err.status;
       break;
